@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahimy</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .header-container {
+            background-color: #1f1f1f;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .header-container h1 {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .nav {
+            background-color: rgba(30, 30, 30, 0.9);
+            color: #ffffff;
+            padding: 10px;
+            border-bottom: 1px solid #333;
+        }
+
+        .nav a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 15px;
+            display: inline-block;
+        }
+
+        .nav a:hover {
+            color: #bb86fc;
+        }
+
+        .title {
+            color: #bb86fc;
+        }
+
+        .container.page {
+            padding: 20px;
+        }
+
+        .timer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .timer-circle {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: #1f1f1f;
+            border: 10px solid #03dac5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timer-text {
+            font-size: 48px;
+            color: #ffffff;
+        }
+
+        .timer-controls {
+            margin-top: 20px;
+        }
+
+        #progress-bar-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #1f1f1f;
+            border-bottom: 1px solid #333;
+        }
+
+        #progress-bar {
+            height: 100%;
+            background-color: #03dac5;
+            width: 0%;
+            transition: width 1s linear;
+        }
+
+        #lapse-logs {
+            margin-top: 20px;
+        }
+
+        .lapse-log {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .clear-button {
+            background-color: #e50914;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            color: #ffffff;
+        }
+
+        .clear-button:hover {
+            background-color: #b00710;
+        }
+
+        /* Home Page Styles */
+        .home-content {
+            text-align: center;
+        }
+
+        .gamified-intro {
+            margin-top: 20px;
+        }
+
+        /* Courses List Styles */
+        .course-bar {
+            background-color: #333;
+            color: #ffffff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .course-bar:hover {
+            background-color: #444;
+        }
+
+        .course-form-container {
+            margin-top: 20px;
+        }
+
+        .btn-start {
+            background-color: #bb86fc;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .btn-start:hover {
+            background-color: #9b66cc;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1 class="app-title title">Mahimy</h1>
+        </div>
+        <nav class="nav">
+            <ul>
+                <li><a href="#home" class="nav-link option">Home</a></li>
+                <li><a href="#my-courses" class="nav-link option">My Courses</a></li>
+                <li><a href="#timer" class="nav-link option">Timer</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <section id="home" class="container page active">
+            <div class="home-content">
+                <h1 class="title">Welcome to Mahimy</h1>
+                <p class="subtitle">Your personal study assistant</p>
+                <p id="motivation-quote"></p>
+                <div class="gamified-intro">
+                    <h2 class="get-started">Get Started!</h2>
+                </div>
+            </div>
+        </section>
+
+        <section id="my-courses" class="container page">
+            <h1 class="title">My Courses</h1>
+            <button id="add-course-button" class="btn-start">Add Course</button>
+            <div id="course-form" class="course-form-container" style="display: none;">
+                <h2 class="title">Add New Course</h2>
+                <form id="course-form-element">
+                    <label for="course-name">Course Name:</label>
+                    <input type="text" id="course-name" required>
+                    <button type="submit" class="btn-start">Add Course</button>
+                </form>
+            </div>
+            <div id="courses-list" class="courses-list">
+                <!-- Dynamic course bars will be added here -->
+            </div>
+        </section>
+
+        <section id="timer" class="container page">
+            <div class="timer-container">
+                <div class="timer-circle">
+                    <div class="timer-text" id="timer-text">25:00</div>
+                </div>
+                <div class="timer-controls">
+                    <button id="start-pause" class="btn-start">Start</button>
+                    <button id="stop" class="btn-start">Stop</button>
+                    <button id="reset" class="btn-start">Reset</button>
+                    <button id="lapse" class="btn-start">Lapse</button>
+                </div>
+                <div id="progress-bar-container">
+                    <div id="progress-bar"></div>
+                </div>
+                <div id="lapse-logs">
+                    <!-- Lapse logs will be added here -->
+                </div>
+                <button id="clear-lapse-logs" class="clear-button">Clear Logs</button>
+            </div>
+        </section>
+        
+        </div>
+    </section>
+</main>
+
+<script src="js/app.js"></script>
+<script src="js/courses.js"></script>
+<script src="js/timer.js"></script>
+<script src="js/progressTracker.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Set the motivational quote based on the time of day
+        const now = new Date();
+        const hours = now.getHours();
+        let greeting = 'Good evening';
+        if (hours < 12) greeting = 'Good morning';
+        else if (hours < 18) greeting = 'Good afternoon';
+
+        const quotes = [
+            "The best way to predict the future is to create it.",
+            "Success is not final, failure is not fatal: It is the courage to continue that counts.",
+            "The only limit to our realization of tomorrow is our doubts of today."
+        ];
+
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+
+        document.getElementById('motivation-quote').textContent = `${greeting}, ${randomQuote}`;
+
+        // Show the course form when the "Add Course" button is clicked
+        document.getElementById('add-course-button').addEventListener('click', () => {
+            document.getElementById('course-form').style.display = 'block';
+        });
+
+        // Handle form submission
+        document.getElementById('course-form-element').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const courseName = document.getElementById('course-name').value;
+
+            if (courseName) {
+                // Add the course to the list
+                addCourse(courseName);
+                // Hide the form after adding the course
+                document.getElementById('course-form').style.display = 'none';
+                // Clear the input field
+                document.getElementById('course-name').value = '';
+            }
+        });
+
+        function addCourse(courseName) {
+            const coursesList = document.getElementById('courses-list');
+            const courseDiv = document.createElement('div');
+            courseDiv.className = 'course-bar';
+            courseDiv.textContent = courseName;
+            coursesList.appendChild(courseDiv);
+        }
+    });
+</script>
+</body>
+</html>
+

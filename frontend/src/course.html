@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Details</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .header-container {
+            background-color: #1f1f1f;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .header-container h1 {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .nav {
+            background-color: rgba(30, 30, 30, 0.9);
+            color: #ffffff;
+        }
+
+        .nav a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 15px;
+            display: inline-block;
+        }
+
+        .nav a:hover {
+            color: #bb86fc;
+        }
+
+        .title {
+            color: #bb86fc;
+        }
+
+        .course-details {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #1f1f1f;
+            border-radius: 8px;
+        }
+
+        .course-details h2 {
+            color: #bb86fc;
+        }
+
+        .btn-start {
+            background-color: #03dac5;
+            color: #000;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .btn-start:hover {
+            background-color: #018786;
+        }
+
+         /* Suggestions Sidebar */
+         .suggestions-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 250px;
+            max-height: 70vh;
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 10px;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+            overflow-y: auto;
+            border-radius: 8px;
+            z-index: 1000;
+            cursor: move;
+        }
+
+        .suggestion-bar {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .suggestion-bar:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .suggestion-bar a {
+            color: #bb86fc;
+            text-decoration: none;
+        }
+
+        .suggestion-bar a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* Uploaded Files */
+        .uploaded-files-container {
+            margin-top: 20px;
+        }
+
+        .uploaded-file {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .uploaded-file a {
+            color: #bb86fc;
+            text-decoration: none;
+        }
+
+        .uploaded-file a:hover {
+            text-decoration: underline;
+        }
+
+        .uploaded-file button {
+            background-color: #e50914;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            color: #ffffff;
+        }
+
+        .uploaded-file button:hover {
+            background-color: #b00710;
+        }
+
+        /* Global Timer */
+        .global-timer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            z-index: 1000;
+            box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Notes Box */
+        .notes-box {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #1f1f1f;
+            border-radius: 8px;
+        }
+
+        .notes-box textarea {
+            width: 100%;
+            height: 100px;
+            background-color: #333;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 14px;
+            resize: none;
+        }
+
+        .notes-box button {
+            margin-top: 10px;
+            background-color: #03dac5;
+            color: #000;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .notes-box button:hover {
+            background-color: #018786;
+        }
+
+        .note-item {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .note-item button {
+            background-color: #e50914;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            color: #ffffff;
+        }
+
+        .note-item button:hover {
+            background-color: #b00710;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1 class="app-title title">Course Details</h1>
+        </div>
+        <nav class="nav glass-effect">
+            <ul>
+                <li><a href="#home" class="nav-link option">Home</a></li>
+                <li><a href="#my-courses" class="nav-link option">My Courses</a></li>
+                <li><a href="#timer" class="nav-link option">Timer</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <section id="course-content" class="container page active">
+            <h1 id="course-title" class="title">Course Title</h1>
+            <div class="course-details">
+                <h2>Uploaded Files</h2>
+                <div id="uploaded-files" class="uploaded-files-container">
+                    <!-- Dynamic uploaded files will be listed here -->
+                </div>
+                <input type="file" id="file-input" />
+                <button id="upload-file" class="btn-start">Upload File</button>
+            </div>
+            <div class="notes-box">
+                <textarea id="note-input" placeholder="Enter your notes here..."></textarea>
+                <button id="save-note">Save Note</button>
+                <h2>Saved Notes</h2>
+                <div id="notes-list">
+                    <!-- Dynamic notes will be listed here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Suggestions Sidebar -->
+    <div id="suggestions" class="suggestions-container">
+        <!-- Dynamic suggestions will be added here as bars -->
+    </div>
+
+    <!-- Global Timer -->
+    <div id="global-timer" class="global-timer"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Handle navigation from course.html back to index.html pages
+            const homeBtn = document.querySelector('a[href="#home"]');
+            const myCoursesBtn = document.querySelector('a[href="#my-courses"]');
+            const timerBtn = document.querySelector('a[href="#timer"]');
+
+            homeBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                window.location.href = 'index.html#home';
+            });
+
+            myCoursesBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                window.location.href = 'index.html#my-courses';
+            });
+
+            timerBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                window.location.href = 'index.html#timer';
+            });
+
+            // Set the course title based on the selected course
+            const courseTitle = localStorage.getItem('selectedCourse');
+            if (courseTitle) {
+                document.getElementById('course-title').textContent = courseTitle;
+
+                // Generate suggestions based on the course title
+                generateSuggestions(courseTitle);
+
+                // Load uploaded files and notes specific to this course
+                loadUploadedFiles(courseTitle);
+                loadNotes(courseTitle);
+            }
+
+            // Handle file uploads
+            document.getElementById('upload-file').addEventListener('click', () => {
+                const fileInput = document.getElementById('file-input');
+                const files = fileInput.files;
+                const courseTitle = document.getElementById('course-title').textContent;
+
+                if (files.length > 0 && courseTitle) {
+                    const file = files[0];
+                    const fileName = file.name;
+                    const fileURL = URL.createObjectURL(file);
+                    
+                    // Save file to local storage
+                    saveFile(courseTitle, fileName, fileURL);
+
+                    // Update the file list
+                    loadUploadedFiles(courseTitle);
+                }
+            });
+
+            // Handle note saving
+            document.getElementById('save-note').addEventListener('click', () => {
+                const noteInput = document.getElementById('note-input');
+                const noteContent = noteInput.value;
+                const courseTitle = document.getElementById('course-title').textContent;
+
+                if (noteContent && courseTitle) {
+                    const noteName = prompt('Enter a name for your note:');
+                    if (noteName) {
+                        saveNote(courseTitle, noteName, noteContent);
+                        noteInput.value = ''; // Clear the textarea
+                        loadNotes(courseTitle); // Update the notes list
+                    }
+                }
+            });
+        });
+       
+        const suggestionsContainer = document.getElementById('suggestions');
+    let isDragging = false;
+    let startX, startY, initialX, initialY;
+
+    suggestionsContainer.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        initialX = suggestionsContainer.offsetLeft;
+        initialY = suggestionsContainer.offsetTop;
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            document.removeEventListener('mousemove', onMouseMove);
+        });
+    });
+
+    function onMouseMove(e) {
+        if (isDragging) {
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            suggestionsContainer.style.left = `${initialX + dx}px`;
+            suggestionsContainer.style.top = `${initialY + dy}px`;
+        }
+    }
+
+
+        function generateSuggestions(courseTitle) {
+            const suggestionsContainer = document.getElementById('suggestions');
+            suggestionsContainer.innerHTML = ''; // Clear previous suggestions
+
+            const suggestionUrls = [
+                `https://www.geeksforgeeks.org/?search=${encodeURIComponent(courseTitle)}`,
+                `https://www.w3schools.com/search/search.asp?query=${encodeURIComponent(courseTitle)}`,
+                `https://www.youtube.com/results?search_query=${encodeURIComponent(courseTitle)}`
+            ];
+
+            suggestionUrls.forEach(url => {
+                const suggestionBar = document.createElement('div');
+                suggestionBar.className = 'suggestion-bar';
+                suggestionBar.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
+                suggestionsContainer.appendChild(suggestionBar);
+            });
+        }
+
+        function loadUploadedFiles(courseTitle) {
+            const uploadedFilesContainer = document.getElementById('uploaded-files');
+            uploadedFilesContainer.innerHTML = ''; // Clear previous files
+
+            const files = JSON.parse(localStorage.getItem(`files_${courseTitle}`)) || [];
+            files.forEach(file => {
+                const fileDiv = document.createElement('div');
+                fileDiv.className = 'uploaded-file';
+                fileDiv.innerHTML = `
+                    <a href="${file.url}" target="_blank">${file.name}</a>
+                    <button class="delete-file" data-file="${file.name}">Delete</button>
+                `;
+                uploadedFilesContainer.appendChild(fileDiv);
+            });
+
+            // Add delete functionality
+            document.querySelectorAll('.delete-file').forEach(button => {
+                button.addEventListener('click', function () {
+                    const fileName = this.dataset.file;
+                    deleteFile(courseTitle, fileName);
+                });
+            });
+        }
+
+        function loadNotes(courseTitle) {
+            const notesList = document.getElementById('notes-list');
+            notesList.innerHTML = ''; // Clear previous notes
+
+            const notes = JSON.parse(localStorage.getItem(`notes_${courseTitle}`)) || [];
+            notes.forEach(note => {
+                const noteDiv = document.createElement('div');
+                noteDiv.className = 'note-item';
+                noteDiv.innerHTML = `
+                    <span>${note.name}</span>
+                    <button class="edit-note" data-note="${note.name}">Edit</button>
+                    <button class="delete-note" data-note="${note.name}">Delete</button>
+                `;
+                notesList.appendChild(noteDiv);
+            });
+
+            // Add edit functionality
+            document.querySelectorAll('.edit-note').forEach(button => {
+                button.addEventListener('click', function () {
+                    const noteName = this.dataset.note;
+                    const notes = JSON.parse(localStorage.getItem(`notes_${courseTitle}`)) || [];
+                    const note = notes.find(n => n.name === noteName);
+                    if (note) {
+                        document.getElementById('note-input').value = note.content;
+                        document.getElementById('save-note').dataset.editNote = noteName;
+                    }
+                });
+            });
+
+            // Add delete functionality
+            document.querySelectorAll('.delete-note').forEach(button => {
+                button.addEventListener('click', function () {
+                    const noteName = this.dataset.note;
+                    deleteNote(courseTitle, noteName);
+                });
+            });
+        }
+
+        function saveFile(courseTitle, fileName, fileURL) {
+            const files = JSON.parse(localStorage.getItem(`files_${courseTitle}`)) || [];
+            files.push({ name: fileName, url: fileURL });
+            localStorage.setItem(`files_${courseTitle}`, JSON.stringify(files));
+        }
+
+        function deleteFile(courseTitle, fileName) {
+            let files = JSON.parse(localStorage.getItem(`files_${courseTitle}`)) || [];
+            files = files.filter(file => file.name !== fileName);
+            localStorage.setItem(`files_${courseTitle}`, JSON.stringify(files));
+            loadUploadedFiles(courseTitle); // Refresh the file list
+        }
+
+        function saveNote(courseTitle, noteName, noteContent) {
+            const notes = JSON.parse(localStorage.getItem(`notes_${courseTitle}`)) || [];
+            const existingNoteIndex = notes.findIndex(n => n.name === noteName);
+            if (existingNoteIndex !== -1) {
+                notes[existingNoteIndex].content = noteContent;
+            } else {
+                notes.push({ name: noteName, content: noteContent });
+            }
+            localStorage.setItem(`notes_${courseTitle}`, JSON.stringify(notes));
+        }
+
+        function deleteNote(courseTitle, noteName) {
+            let notes = JSON.parse(localStorage.getItem(`notes_${courseTitle}`)) || [];
+            notes = notes.filter(note => note.name !== noteName);
+            localStorage.setItem(`notes_${courseTitle}`, JSON.stringify(notes));
+            loadNotes(courseTitle); // Refresh the notes list
+        }
+    </script>
+</body>
+</html>
